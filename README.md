@@ -1,7 +1,7 @@
 PowerShell Gallery Publish
 ===========================
 
-Deploy your PowerShell module to the [PowerShell Gallery](https://www.powershellgallery.com/).
+Deploy your PowerShell binary module to the [PowerShell Gallery](https://www.powershellgallery.com/).
 
 Usage
 -----

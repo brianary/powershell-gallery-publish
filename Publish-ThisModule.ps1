@@ -9,11 +9,11 @@ $MSBuildProjectName = $proj.BaseName
 Join-Path ($env:PSModulePath -split ';') $MSBuildProjectName |
     Where-Object {Test-Path $_ -Type Container} |
     Remove-Item -Recurse -Force -Verbose
-Push-Location (Join-Path $proj.DirectoryName bin $BuildConfiguration publish)
+Get-ChildItem $proj.DirectoryName -Filter publish -Directory -Recurse |Push-Location
 Import-LocalizedData Module -FileName $MSBuildProjectName -BaseDirectory "$PWD"
 $Version = $Module.ModuleVersion
-$InstallPath = "$env:UserProfile/Documents/PowerShell/Modules/$MSBuildProjectName/$Version"
-if(!(Test-Path $InstallPath -Type Container)) {mkdir $InstallPath}
+$InstallPath = Join-Path $env:UserProfile Documents PowerShell Modules $MSBuildProjectName $Version
+if(!(Test-Path $InstallPath -Type Container)) {New-Item -Type Directory $InstallPath}
 Copy-Item * -Destination $InstallPath
 Pop-Location
 Publish-Module -Name $MSBuildProjectName -NuGetApiKey $GalleryKey
