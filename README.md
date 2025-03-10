@@ -1,2 +1,25 @@
-# powershell-gallery-publish
-Publishes a PowerShell module to the PowerShell Gallery when the module definition (.psd1) updates.
+PowerShell Gallery Publish
+===========================
+
+Deploy your PowerShell binary module to the [PowerShell Gallery](https://www.powershellgallery.com/).
+
+Usage
+-----
+
+```yaml
+name: Publish module to PowerShell Gallery
+on:
+  workflow_run:
+    workflows: [".NET build and test"]
+    types: [completed]
+    branches: [main]
+jobs:
+  publish:
+    name: Publish to PowerShell Gallery
+    runs-on: windows-latest
+    steps:
+      - name: Publish module
+        uses: brianary/powershell-gallery-publish@v1
+        with:
+          gallery-key: ${{ secrets.gallerykey }}
+```
