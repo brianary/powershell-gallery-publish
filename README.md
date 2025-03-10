@@ -7,23 +7,19 @@ Usage
 -----
 
 ```yaml
-name: .NET build and test
-on: push
+name: Publish module to PowerShell Gallery
+on:
+  workflow_run:
+    workflows: [".NET build and test"]
+    types: [completed]
+    branches: [main]
 jobs:
-  continuous-integration:
-    name: Build and test
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-          os: [ubuntu-latest, windows-latest]
-    permissions:
-      contents: read
-      issues: read
-      checks: write
-      pull-requests: write
+  publish:
+    name: Publish to PowerShell Gallery
+    runs-on: windows-latest
     steps:
-      - name: .NET CI
-        uses: brianary/dotnet-ci@v1
+      - name: Publish module
+        uses: brianary/powershell-gallery-publish@v1
         with:
-          test-target: Test
+          gallery-key: ${{ secrets.gallerykey }}
 ```
