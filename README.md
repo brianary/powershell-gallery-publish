@@ -1,2 +1,29 @@
-# powershell-gallery-publish
-Publishes a PowerShell module to the PowerShell Gallery when the module definition (.psd1) updates.
+PowerShell Gallery Publish
+===========================
+
+Deploy your PowerShell module to the [PowerShell Gallery](https://www.powershellgallery.com/).
+
+Usage
+-----
+
+```yaml
+name: .NET build and test
+on: push
+jobs:
+  continuous-integration:
+    name: Build and test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+          os: [ubuntu-latest, windows-latest]
+    permissions:
+      contents: read
+      issues: read
+      checks: write
+      pull-requests: write
+    steps:
+      - name: .NET CI
+        uses: brianary/dotnet-ci@v1
+        with:
+          test-target: Test
+```

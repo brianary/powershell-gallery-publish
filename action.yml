@@ -1,0 +1,49 @@
+name: Publish to PowerShell Gallery
+description: When the version number in the .psd1 is updated
+author: brianary
+# https://haya14busa.github.io/github-action-brandings/
+branding:
+  icon: terminal
+  color: gray-dark
+inputs:
+  gallery-key:
+    description: >
+      The PowerShell Gallery API secret key used to publish this module.
+    required: true
+  dotnet-version:
+    description: >
+      The .NET SDK version to use to build. Defaults to the current LTS version.
+      Examples: 8.0.x, 9.0.x
+    default: 8.0.x
+  build-config:
+    description: >
+      The build configuration to publish. Default: Release.
+    default: Release
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ inputs.dotnet-version }}
+    - name: Check that version was updated in module definition (.psd1)
+      id: version-updated
+      uses: tj-actions/changed-files@v45
+      with:
+        fetch-depth: 2
+        files: "**/*.psd1"
+    - name: Publish
+      if: ${{ success() && inputs.gallery-key }}
+      env:
+        GALLERYKEY: ${{ inputs.gallery-key }}
+        ACTIONPATH: ${{ github.action_path }}
+        BUILDCONFIG: ${{ inputs.build-config }}
+      shell: pwsh
+      run: >
+        & "$env:ACTIONPATH/Publish-ThisModule.ps1"
+        -BuildConfiguration $env:BUILDCONFIG
+        -GalleryKey $env:GALLERYKEY
