@@ -37,7 +37,7 @@ runs:
         fetch-depth: 2
         files: "**/*.psd1"
     - name: Publish
-      if: ${{ success() && inputs.gallery-key }}
+      if: ${{ success() && inputs.gallery-key && steps.version-updated.outputs.any_changed == 'true' }}
       env:
         GALLERYKEY: ${{ inputs.gallery-key }}
         ACTIONPATH: ${{ github.action_path }}
