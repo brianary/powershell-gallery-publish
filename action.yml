@@ -34,7 +34,7 @@ runs:
       id: version-updated
       uses: tj-actions/changed-files@v45
       with:
-        fetch-depth: 2
+        fetch_depth: 2
         files: "**/*.psd1"
     - name: Publish
       if: ${{ success() && inputs.gallery-key && steps.version-updated.outputs.any_changed == 'true' }}
