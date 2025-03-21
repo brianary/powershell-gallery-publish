@@ -32,7 +32,7 @@ runs:
         dotnet-version: ${{ inputs.dotnet-version }}
     - name: Check that version was updated in module definition (.psd1)
       id: version-updated
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@v46
       with:
         fetch_depth: 2
         files: "**/*.psd1"
