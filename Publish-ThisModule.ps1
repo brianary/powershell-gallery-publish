@@ -1,3 +1,8 @@
+<#
+.SYNOPSIS
+Publishes a module to PowerShell gallery.
+#>
+
 #Requires -Version 7
 [CmdletBinding()] Param(
 [Parameter(Mandatory=$true)][string] $BuildConfiguration,
